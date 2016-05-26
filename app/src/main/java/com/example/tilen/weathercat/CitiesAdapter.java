@@ -1,10 +1,15 @@
 package com.example.tilen.weathercat;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tilen.weathercat.model.WeatherData;
@@ -15,10 +20,12 @@ import com.example.tilen.weathercat.model.WeatherData;
 public class CitiesAdapter extends BaseAdapter {
 
     private final LayoutInflater inflater;
+    private final Resources resources;
     private WeatherData[] items;
 
     public CitiesAdapter(Context context) {
         inflater = LayoutInflater.from(context);
+        resources = context.getResources();
     }
 
     public void setItems(WeatherData[] items) {
@@ -51,14 +58,44 @@ public class CitiesAdapter extends BaseAdapter {
         View view = convertView;
         if (view == null) {
             // create new view
-            view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            view = inflater.inflate(R.layout.list_item_city, parent, false);
         }
 
         WeatherData item = getItem(position);
 
-        TextView textView = (TextView) view.findViewById(android.R.id.text1);
+        TextView textView = (TextView) view.findViewById(R.id.title);
         textView.setText(item.getName());
+
+        final ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        new ImageTask(resources,imageView).execute(R.drawable.sun);
 
         return view;
     }
+
+    private static class ImageTask extends AsyncTask<Integer, Void, Drawable> {
+
+        private final Resources resources;
+        private final ImageView imageView;
+
+        private ImageTask(Resources resources, ImageView imageView) {
+            this.resources = resources;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            imageView.setImageDrawable(null);
+        }
+
+        @Override
+        protected Drawable doInBackground(Integer... params) {
+            return resources.getDrawable(params[0], null);
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            imageView.setImageDrawable(drawable);
+        }
+    }
+
 }
