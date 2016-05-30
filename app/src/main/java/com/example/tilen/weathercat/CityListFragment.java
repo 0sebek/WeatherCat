@@ -46,6 +46,7 @@ public class CityListFragment extends Fragment {
         } else {
             throw new RuntimeException("Parent activity should implement ShowDetail");
         }
+
     }
 
     @Nullable
@@ -64,7 +65,6 @@ public class CityListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 WeatherData item = adapter.getItem(position);
                 detailInterface.showDetail(item);
 
