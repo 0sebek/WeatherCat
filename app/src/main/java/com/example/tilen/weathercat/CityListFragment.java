@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.tilen.weathercat.model.Main;
@@ -59,6 +60,15 @@ public class CityListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Button refresh = (Button) view.findViewById(R.id.button);
+
+        refresh.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                requestCities();
+            }
+        });
 
         adapter = new CitiesAdapter(getActivity());
         ListView listView = (ListView) view.findViewById(R.id.listView);
