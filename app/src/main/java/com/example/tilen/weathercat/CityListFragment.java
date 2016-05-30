@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.tilen.weathercat.model.Main;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
@@ -66,7 +67,11 @@ public class CityListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 WeatherData item = adapter.getItem(position);
-                detailInterface.showDetail(item);
+
+                Intent intent = new Intent(getActivity(), SecondActivity.class);
+                intent.putExtra(CityDetailFragment.EXTRA_WEATHER_DATA, item);
+
+                startActivity(intent);
 
             }
         });
