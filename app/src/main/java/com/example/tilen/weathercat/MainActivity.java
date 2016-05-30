@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity implements ShowDetail {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        isLandscape = findViewById(android.R.id.content) != null;
+        isLandscape = findViewById(R.id.detail_content) != null;
     }
 
-    @Override
+
     public void showDetail(WeatherData item) {
 
         if (isLandscape) {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements ShowDetail {
             fragment.setArguments(arguments);
 
             getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, fragment)
+                    .replace(R.id.detail_content, fragment)
                     .commit();
 
         } else {

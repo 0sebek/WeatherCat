@@ -67,17 +67,15 @@ public class CityListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 WeatherData item = adapter.getItem(position);
-
-                Intent intent = new Intent(getActivity(), SecondActivity.class);
-                intent.putExtra(CityDetailFragment.EXTRA_WEATHER_DATA, item);
-
-                startActivity(intent);
+                detailInterface.showDetail(item);
 
             }
         });
 
         requestCities();
     }
+
+
 
     private void requestCities() {
 
