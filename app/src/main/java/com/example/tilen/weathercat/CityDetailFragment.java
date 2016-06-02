@@ -1,11 +1,15 @@
 package com.example.tilen.weathercat;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.tilen.weathercat.R;
@@ -36,5 +40,26 @@ public class CityDetailFragment extends Fragment {
 
         TextView tempView = (TextView) view.findViewById(R.id.temperature);
         tempView.setText(getString(R.string.temp, weatherData.getMain().getTemp()));
+
+        final SharedPreferences preferences = getContext().getSharedPreferences("weather_cat", Context.MODE_PRIVATE);
+
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_favourite);
+        boolean isFavourite = weatherData.getId() == preferences.getLong("favourite_city_id", -1);
+        checkBox.setChecked(isFavourite);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    preferences.edit()
+                            .putLong("favourite_city_id", weatherData.getId())
+                            .apply();
+                } else {
+                    preferences.edit()
+                            .putLong("favourite_city_id", -1)
+                            .apply();
+                }
+            }
+        });
     }
 }
